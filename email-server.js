@@ -20,8 +20,17 @@ var createsmtpTransport = function(user, pass){
 
 var port			=	Number(process.env.PORT || 8000);
 var filename 		=	process.argv[2]?process.argv[2]:"emailLogin.json";
-var fileString 		=	fs.readFileSync(filename);
-var fileObject		=	JSON.parse(fileString);
+
+if(fs.existsSync(filename)) {
+	var fileString	=	fs.readFileSync(filename);
+	var fileObject	=	JSON.parse(fileString);
+}else{
+	var fileObject	=	{
+		"user"	:	process.env.user,
+		"pass"	:	process.env.pass,
+		"to"	:	process.env.to
+	}
+}
 var smtpTransport 	=	createsmtpTransport(fileObject.user, fileObject.pass);
 
 var server = http.createServer(function(request, response){
