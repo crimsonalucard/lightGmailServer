@@ -48,6 +48,8 @@ var server = http.createServer(function(request, response){
 					}
 				});
 			});
+	}else{
+		request.end("email server is running. Please Post a message.");
 	}
 });
 
