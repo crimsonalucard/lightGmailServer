@@ -5,7 +5,7 @@
 var http			=	require("http");
 var nodemailer 		= 	require("nodemailer");
 var fs				=	require('fs');
-var url				=	require('url')
+var url				=	require('url');
 
 var createsmtpTransport = function(user, pass){
 	var smtpTransport = nodemailer.createTransport("SMTP",{
@@ -18,6 +18,7 @@ var createsmtpTransport = function(user, pass){
 	return smtpTransport;
 }
 
+var port			=	Number(process.env.PORT || 8000);
 var filename 		=	process.argv[2]?process.argv[2]:"emailLogin.json";
 var fileString 		=	fs.readFileSync(filename);
 var fileObject		=	JSON.parse(fileString);
@@ -50,4 +51,4 @@ var server = http.createServer(function(request, response){
 	}
 });
 
-server.listen(8000);
+server.listen(port);
