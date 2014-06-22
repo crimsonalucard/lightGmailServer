@@ -50,7 +50,8 @@ var server = http.createServer(function(request, response){
 					if(error){
 						//won't do logging for now....
 						console.log(error);
-						response.end(JSON.stringify([false]));
+//						response.end(JSON.stringify([false]));
+						response.end(JSON.stringify(error));
 					}
 					else{
 						response.end(JSON.stringify([true]));
