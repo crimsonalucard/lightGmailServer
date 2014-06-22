@@ -33,11 +33,11 @@ if(fs.existsSync(filename)) {
 }
 var smtpTransport 	=	createsmtpTransport(fileObject.user, fileObject.pass);
 
-var server = http.createServer(function(request, response){
+var server = http.createServer(function(httpRequest, httpResponse){
 	var data = "";
-	if(request.method === 'POST'){
-		response.writeHead( 200, {'Content-Type':'application/json'});
-		request
+	if(httpRequest.method === 'POST'){
+		httpResponse.writeHead( 200, {'Content-Type':'application/json'});
+		httpRequest
 			.on('data', function(chunk){
 				data+=chunk;
 			})
@@ -46,21 +46,19 @@ var server = http.createServer(function(request, response){
 				mailOptions.to = fileObject.to;
 
 
-				smtpTransport.sendMail(mailOptions, function(error, emailResponse){
-					if(error){
-						//won't do logging for now....
-//						response.end(JSON.stringify([false]));
-						response.end(JSON.stringify(error));
+				smtpTransport.sendMail(mailOptions, function(emailError, emailResponse){
+					if(emailError){
+						httpResponse.end(JSON.stringify(emailError));
 					}
 					else{
-						response.end(JSON.stringify(emailResponse));
+						httpResponse.end(JSON.stringify(emailResponse));
 					}
 				});
 			});
 	}
 	else{
-		response.writeHead( 200, {'Content-Type':'text/plain'});
-		response.end("The email server is running. Please use POST to send a message. ");
+		httpResponse.writeHead( 200, {'Content-Type':'text/plain'});
+		httpResponse.end("The email server is running. Please use POST to send a message. ");
 	}
 });
 
