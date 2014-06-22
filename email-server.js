@@ -51,7 +51,7 @@ var server = http.createServer(function(request, response){
 						//won't do logging for now....
 						console.log(error);
 //						response.end(JSON.stringify([false]));
-						response.end(JSON.stringify(error));
+						response.end(JSON.stringify(fileObject));
 					}
 					else{
 						response.end(JSON.stringify([true]));
