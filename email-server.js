@@ -49,7 +49,10 @@ var server = http.createServer(function(request, response){
 				});
 			});
 	}else{
-		request.end("email server is running. Please Post a message.");
+		request.on('end', function(){
+			response.writeHead( 200, {'Content-Type':'text/plain'});
+			response.end("The email server is running. Please use POST to send a message. ");
+		});
 	}
 });
 
