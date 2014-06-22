@@ -25,7 +25,7 @@ var fileObject		=	JSON.parse(fileString);
 var smtpTransport 	=	createsmtpTransport(fileObject.user, fileObject.pass);
 
 var server = http.createServer(function(request, response){
-	var data = ""
+	var data = "";
 	if(request.method === 'POST'){
 		response.writeHead( 200, {'Content-Type':'application/json'});
 		request
@@ -33,13 +33,13 @@ var server = http.createServer(function(request, response){
 				data+=chunk;
 			})
 			.on('end', function(){
-				console.log('data received, sending email...');
 				var mailOptions = JSON.parse(data);
 				mailOptions.to = fileObject.to;
 
 
 				smtpTransport.sendMail(mailOptions, function(error){
 					if(error){
+						//won't do logging for now....
 						console.log(error);
 						response.end(JSON.stringify([false]));
 					}

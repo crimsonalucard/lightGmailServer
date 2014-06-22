@@ -1,1 +1,1 @@
-web: node email-server.js
+web: node email-server.min.js
