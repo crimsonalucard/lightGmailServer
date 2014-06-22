@@ -46,14 +46,14 @@ var server = http.createServer(function(request, response){
 				mailOptions.to = fileObject.to;
 
 
-				smtpTransport.sendMail(mailOptions, function(error, response){
+				smtpTransport.sendMail(mailOptions, function(error, emailResponse){
 					if(error){
 						//won't do logging for now....
 //						response.end(JSON.stringify([false]));
 						response.end(JSON.stringify(error));
 					}
 					else{
-						response.end(JSON.stringify(response));
+						response.end(JSON.stringify(emailResponse));
 					}
 				});
 			});
