@@ -46,21 +46,19 @@ var server = http.createServer(function(request, response){
 				mailOptions.to = fileObject.to;
 
 
-				smtpTransport.sendMail(mailOptions, function(error){
+				smtpTransport.sendMail(mailOptions, function(error, response){
 					if(error){
 						//won't do logging for now....
-						console.log(error);
 //						response.end(JSON.stringify([false]));
-						response.end(JSON.stringify(fileObject));
+						response.end(JSON.stringify(error));
 					}
 					else{
-						response.end(JSON.stringify([true]));
+						response.end(JSON.stringify(response));
 					}
 				});
 			});
 	}
 	else{
-		console.log("test!");
 		response.writeHead( 200, {'Content-Type':'text/plain'});
 		response.end("The email server is running. Please use POST to send a message. ");
 	}
