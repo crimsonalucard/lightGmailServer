@@ -55,6 +55,20 @@ var server = http.createServer(function(httpRequest, httpResponse){
 					}
 				});
 			});
+	} else if(httpRequest.method === "HEAD"){//CORS
+		httpResponse.writeHead(200, {
+			"Access-Control-Allow-Origin": "*",
+			"Access-Control-Allow-Methods": "POST, GET, PUT, DELETE, OPTIONS",
+			"Access-Control-Allow-Credentials": "false",
+			"Access-Control-Max-Age": "86400",
+			"Access-Control-Allow-Headers": "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept"
+		});
+
+	} else if(httpRequest.method === "OPTIONS"){//CORS
+		httpResponse.writeHead(200, httpRequest.headers);
+		httpResponse.end();
+
+
 	}
 	else{
 		httpResponse.writeHead( 200, {'Content-Type':'text/plain'});
