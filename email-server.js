@@ -49,20 +49,26 @@ var server = http.createServer(function (httpRequest, httpResponse) {
 				data += chunk;
 			})
 			.on('end', function () {
+				console.log(data);
 				var mailOptions = JSON.parse(data);
 				mailOptions.to = fileObject.to;
 
 
 				smtpTransport.sendMail(mailOptions, function (emailError, emailResponse) {
 					if (emailError) {
+						console.log("error sending email:");
+						console.log(emailError);
 						httpResponse.end(JSON.stringify(emailError));
 					}
 					else {
+						console.log("email success:");
+						console.log(emailResponse);
 						httpResponse.end(JSON.stringify(emailResponse));
 					}
 				});
 			});
 	} else if (httpRequest.method === "HEAD") {//CORS
+		console.log("responding to cors head...")
 		httpResponse.writeHead(200, {
 			"Access-Control-Allow-Origin": "*",
 			"Access-Control-Allow-Methods": "POST, GET, PUT, DELETE, OPTIONS",
@@ -70,14 +76,17 @@ var server = http.createServer(function (httpRequest, httpResponse) {
 			"Access-Control-Max-Age": "86400",
 			"Access-Control-Allow-Headers": "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept"
 		});
+		httpResponse.end();
 
 	} else if (httpRequest.method === "OPTIONS") {//CORS
+		console.log("responding to cors options...");
 		httpResponse.writeHead(200, httpRequest.headers);
 		httpResponse.end();
 
 
 	}
 	else {
+		console.log("request of wrong format recieved.");
 		httpResponse.writeHead(200, {'Content-Type': 'text/plain'});
 		httpResponse.end("The email server is running. Please use POST to send a message. ");
 	}
